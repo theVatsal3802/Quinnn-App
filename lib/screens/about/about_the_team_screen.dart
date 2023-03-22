@@ -33,7 +33,7 @@ class AboutTheTeamScreen extends StatelessWidget {
             ),
             TeamMemberWidget(
               name: "Ankur Agarwal",
-              description: "Backend Developer",
+              description: "MERN Stack Developer",
               image: "https://avatars.githubusercontent.com/u/74523865?v=4",
               linkedin: "https://www.linkedin.com/in/ankur-8/",
               github: "https://github.com/Ankur6702",
@@ -52,7 +52,7 @@ class AboutTheTeamScreen extends StatelessWidget {
             ),
             TeamMemberWidget(
               name: "Abhinav Jain",
-              description: "Frontend Web Developer",
+              description: "Frontend Web Developer | ML/ AI Engineer",
               image: "https://avatars.githubusercontent.com/u/86119205?v=4",
               linkedin: "https://www.linkedin.com/in/jaintle/",
               github: "https://github.com/AbhinavJaintle",
@@ -109,15 +109,19 @@ class TeamMemberWidget extends StatelessWidget {
               width: MediaQuery.of(context).size.width * 0.3,
             ),
           ListTile(
-            title: Text(
-              name,
-              textScaleFactor: 1,
-              style: Theme.of(context).textTheme.titleLarge,
+            title: Center(
+              child: Text(
+                name,
+                textScaleFactor: 1,
+                style: Theme.of(context).textTheme.titleLarge,
+              ),
             ),
-            subtitle: Text(
-              description,
-              textScaleFactor: 1,
-              style: Theme.of(context).textTheme.bodyMedium,
+            subtitle: Center(
+              child: Text(
+                description,
+                textScaleFactor: 1,
+                style: Theme.of(context).textTheme.bodyMedium,
+              ),
             ),
           ),
           Row(

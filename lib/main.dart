@@ -14,7 +14,8 @@ import 'package:lgbtq_social_media/screens/dashboard/post_screen.dart';
 import 'package:lgbtq_social_media/screens/new_post/new_post_screen.dart';
 import 'package:lgbtq_social_media/screens/settings/settings_screen.dart';
 import 'package:lgbtq_social_media/screens/splash/splash_screen.dart';
-import './utils/theme_manager.dart';
+import 'package:lgbtq_social_media/screens/tnc/terms_and_conditions.dart';
+import 'package:lgbtq_social_media/utils/theme_manager.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -54,6 +55,8 @@ class MyApp extends StatelessWidget {
         NewPostScreen.routeName: (context) => const NewPostScreen(),
         AboutTheAppScreen.routeName: (context) => const AboutTheAppScreen(),
         AboutTheTeamScreen.routeName: (context) => const AboutTheTeamScreen(),
+        TermsAndConditionsScrren.routeName: (context) =>
+            const TermsAndConditionsScrren(),
       },
     );
   }

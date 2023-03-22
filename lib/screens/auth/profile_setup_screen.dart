@@ -17,6 +17,26 @@ class _ProfileSetupScreenState extends State<ProfileSetupScreen> {
   String country = "";
   String flag = "";
   String dob = "";
+  String? selectedGender;
+  List<String> genders = [
+    "Male",
+    "Female",
+    "Gay",
+    "Lesbian",
+    "Bisexual",
+    "Transgender",
+    "Queer",
+  ];
+
+  DropdownMenuItem<String> buildMenuItem(String item) {
+    return DropdownMenuItem(
+      value: item,
+      child: Text(
+        item,
+        textScaleFactor: 1,
+      ),
+    );
+  }
 
   void selectCountry() {
     showCountryPicker(
@@ -240,6 +260,39 @@ class _ProfileSetupScreenState extends State<ProfileSetupScreen> {
                     title: Text(
                       dob.isEmpty ? "Select Date of Birth" : "Birthday: $dob",
                       textScaleFactor: 1,
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Container(
+                    padding: const EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        width: 1,
+                        color: ColorManager.baseGreyColor,
+                      ),
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    child: DropdownButtonHideUnderline(
+                      child: DropdownButton<String>(
+                        isExpanded: true,
+                        hint: const Text(
+                          "Select Gender",
+                          textScaleFactor: 1,
+                        ),
+                        value: selectedGender,
+                        items: genders
+                            .map(
+                              buildMenuItem,
+                            )
+                            .toList(),
+                        onChanged: (gender) {
+                          setState(() {
+                            selectedGender = gender;
+                          });
+                        },
+                      ),
                     ),
                   ),
                   const SizedBox(

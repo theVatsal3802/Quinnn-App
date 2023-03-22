@@ -4,6 +4,7 @@ import 'package:lgbtq_social_media/screens/auth/auth_screen.dart';
 import 'package:lgbtq_social_media/screens/dashboard/home_screen.dart';
 import 'package:lgbtq_social_media/screens/events/event_screen.dart';
 import 'package:lgbtq_social_media/screens/settings/settings_screen.dart';
+import 'package:lgbtq_social_media/screens/tnc/terms_and_conditions.dart';
 import 'package:lgbtq_social_media/utils/assets_manager.dart';
 import 'package:lgbtq_social_media/utils/color_manager.dart';
 
@@ -65,6 +66,19 @@ class CustomDrawer extends StatelessWidget {
           ),
           const Divider(),
           const Spacer(),
+          const Divider(),
+          buildListTile(
+            context: context,
+            iconData: Icons.rule,
+            title: "Terms and Conditions",
+            onTap: () {
+              Navigator.of(context).pushNamedAndRemoveUntil(
+                TermsAndConditionsScrren.routeName,
+                (route) => false,
+                arguments: true,
+              );
+            },
+          ),
           const Divider(),
           buildListTile(
             context: context,

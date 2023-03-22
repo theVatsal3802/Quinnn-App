@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "870110711538",
+    "project_id": "lgbtq-social-media",
+    "storage_bucket": "lgbtq-social-media.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:870110711538:android:c6a32eac299e5d14620a6b",
+        "android_client_info": {
+          "package_name": "com.example.lgbtq_social_media"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "870110711538-jd4s8o60r9aqflqpifru1cj6dmc64s28.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB77q9gR2Meie2VuhcoekR_uSYxYzhFUAQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "870110711538-jd4s8o60r9aqflqpifru1cj6dmc64s28.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lgbtq_social_media/screens/tnc/terms_and_conditions.dart';
 import 'package:lgbtq_social_media/utils/assets_manager.dart';
 import 'package:lgbtq_social_media/utils/color_manager.dart';
 
@@ -18,6 +19,7 @@ class _AuthScreenState extends State<AuthScreen> {
   final passwordController = TextEditingController();
   bool isLogin = false;
   bool isLoading = false;
+  bool isTncChecked = false;
 
   @override
   Widget build(BuildContext context) {
@@ -154,6 +156,48 @@ class _AuthScreenState extends State<AuthScreen> {
                         }
                         return null;
                       },
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(10),
+                    child: CheckboxListTile(
+                      activeColor: ColorManager.baseBlueColor,
+                      tileColor: ColorManager.baseGreyColor,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      value: isTncChecked,
+                      onChanged: (value) {
+                        setState(() {
+                          isTncChecked = value!;
+                        });
+                      },
+                      title: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          const Text(
+                            "By Clicking here, you agree to",
+                            textScaleFactor: 1,
+                            softWrap: true,
+                          ),
+                          TextButton(
+                            style: TextButton.styleFrom(
+                              padding: const EdgeInsets.all(0),
+                              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                            ),
+                            onPressed: () {
+                              Navigator.of(context).pushNamed(
+                                TermsAndConditionsScrren.routeName,
+                                arguments: false,
+                              );
+                            },
+                            child: const Text(
+                              "Our Terms and Conditions",
+                              textScaleFactor: 1,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                   Center(
