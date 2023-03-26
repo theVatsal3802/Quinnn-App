@@ -16,7 +16,7 @@ class PostEndWidget extends StatelessWidget {
         top: 30,
         right: 30,
         left: 30,
-        bottom: 10,
+        bottom: 30,
       ),
       decoration: BoxDecoration(
         border: Border.all(
@@ -41,14 +41,6 @@ class PostEndWidget extends StatelessWidget {
             textScaleFactor: 1,
             style: Theme.of(context).textTheme.bodyLarge,
             textAlign: TextAlign.center,
-          ),
-          const SizedBox(height: 10),
-          TextButton(
-            onPressed: () {},
-            child: const Text(
-              "Load older posts",
-              textScaleFactor: 1,
-            ),
           ),
         ],
       ),

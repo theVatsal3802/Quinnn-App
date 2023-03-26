@@ -39,8 +39,8 @@ class _PostCardWidgetWithImagesState extends State<PostCardWidgetWithImages> {
               Navigator.of(context).pushNamed(
                 PostScreen.routeName,
                 arguments: [
-                  widget.post,
                   widget.user,
+                  widget.post,
                 ],
               );
             },
@@ -61,7 +61,9 @@ class _PostCardWidgetWithImagesState extends State<PostCardWidgetWithImages> {
                 text: widget.post.likes.length.toString(),
               ),
               ActionButton(
-                onPressed: () {},
+                onPressed: () {
+                  ParseFunctions.addComment(context);
+                },
                 iconData: Icons.comment,
                 text: widget.post.comments.length.toString(),
               ),
@@ -93,6 +95,7 @@ class _PostCardWidgetWithImagesState extends State<PostCardWidgetWithImages> {
             child: Text(
               ParseFunctions.getDateFromDateTime(
                 date: widget.post.creationDate,
+                isTimeNeeded: true,
               ),
               textScaleFactor: 1,
               textAlign: TextAlign.left,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lgbtq_social_media/screens/auth/forgot_password_screen.dart';
 import 'package:lgbtq_social_media/screens/tnc/terms_and_conditions.dart';
 import 'package:lgbtq_social_media/utils/assets_manager.dart';
 import 'package:lgbtq_social_media/utils/color_manager.dart';
@@ -20,6 +21,27 @@ class _AuthScreenState extends State<AuthScreen> {
   bool isLogin = false;
   bool isLoading = false;
   bool isTncChecked = false;
+  String? selectedGender;
+  List<String> genders = [
+    "Male",
+    "Female",
+    "Gay",
+    "Lesbian",
+    "Bisexual",
+    "Transgender",
+    "Queer",
+    "Prefer not to say"
+  ];
+
+  DropdownMenuItem<String> buildMenuItem(String item) {
+    return DropdownMenuItem(
+      value: item,
+      child: Text(
+        item,
+        textScaleFactor: 1,
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -82,6 +104,7 @@ class _AuthScreenState extends State<AuthScreen> {
                         key: const ValueKey('name'),
                         controller: nameController,
                         autocorrect: true,
+                        textCapitalization: TextCapitalization.words,
                         enableSuggestions: true,
                         keyboardType: TextInputType.name,
                         decoration: const InputDecoration(
@@ -104,6 +127,7 @@ class _AuthScreenState extends State<AuthScreen> {
                         controller: usernameController,
                         autocorrect: true,
                         enableSuggestions: true,
+                        textCapitalization: TextCapitalization.none,
                         keyboardType: TextInputType.text,
                         decoration: const InputDecoration(
                           labelText: 'Username',
@@ -124,6 +148,7 @@ class _AuthScreenState extends State<AuthScreen> {
                       controller: emailController,
                       autocorrect: false,
                       enableSuggestions: true,
+                      textCapitalization: TextCapitalization.none,
                       keyboardType: TextInputType.emailAddress,
                       decoration: const InputDecoration(
                         labelText: 'Email Id',
@@ -145,6 +170,7 @@ class _AuthScreenState extends State<AuthScreen> {
                       autocorrect: false,
                       enableSuggestions: false,
                       obscureText: true,
+                      textCapitalization: TextCapitalization.none,
                       keyboardType: TextInputType.text,
                       decoration: const InputDecoration(
                         labelText: 'Password',
@@ -158,48 +184,81 @@ class _AuthScreenState extends State<AuthScreen> {
                       },
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.all(10),
-                    child: CheckboxListTile(
-                      activeColor: ColorManager.baseBlueColor,
-                      tileColor: ColorManager.baseGreyColor,
-                      shape: RoundedRectangleBorder(
+                  if (!isLogin)
+                    Container(
+                      margin: const EdgeInsets.all(10),
+                      padding: const EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          width: 1,
+                          color: ColorManager.baseGreyColor,
+                        ),
                         borderRadius: BorderRadius.circular(20),
                       ),
-                      value: isTncChecked,
-                      onChanged: (value) {
-                        setState(() {
-                          isTncChecked = value!;
-                        });
-                      },
-                      title: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          const Text(
-                            "By Clicking here, you agree to",
+                      child: DropdownButtonHideUnderline(
+                        child: DropdownButton<String>(
+                          isExpanded: true,
+                          hint: const Text(
+                            "Select Gender",
                             textScaleFactor: 1,
-                            softWrap: true,
                           ),
-                          TextButton(
-                            style: TextButton.styleFrom(
-                              padding: const EdgeInsets.all(0),
-                              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                            ),
-                            onPressed: () {
-                              Navigator.of(context).pushNamed(
-                                TermsAndConditionsScrren.routeName,
-                                arguments: false,
-                              );
-                            },
-                            child: const Text(
-                              "Our Terms and Conditions",
-                              textScaleFactor: 1,
-                            ),
-                          ),
-                        ],
+                          value: selectedGender,
+                          items: genders
+                              .map(
+                                buildMenuItem,
+                              )
+                              .toList(),
+                          onChanged: (gender) {
+                            setState(() {
+                              selectedGender = gender;
+                            });
+                          },
+                        ),
                       ),
                     ),
-                  ),
+                  if (!isLogin)
+                    Padding(
+                      padding: const EdgeInsets.all(10),
+                      child: CheckboxListTile(
+                        activeColor: ColorManager.baseBlueColor,
+                        tileColor: ColorManager.baseGreyColor,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        value: isTncChecked,
+                        onChanged: (value) {
+                          setState(() {
+                            isTncChecked = value!;
+                          });
+                        },
+                        title: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            const Text(
+                              "By Clicking here, you agree to",
+                              textScaleFactor: 1,
+                              softWrap: true,
+                            ),
+                            TextButton(
+                              style: TextButton.styleFrom(
+                                padding: const EdgeInsets.all(0),
+                                tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                              ),
+                              onPressed: () {
+                                Navigator.of(context).pushNamed(
+                                  TermsAndConditionsScrren.routeName,
+                                  arguments: false,
+                                );
+                              },
+                              child: const Text(
+                                "Our Terms and Conditions",
+                                textScaleFactor: 1,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
                   Center(
                     child: ElevatedButton(
                       onPressed: () {},
@@ -250,7 +309,10 @@ class _AuthScreenState extends State<AuthScreen> {
                             textScaleFactor: 1,
                           ),
                           TextButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              Navigator.of(context)
+                                  .pushNamed(ForgotPasswordScreen.routeName);
+                            },
                             child: const Text(
                               "Click here to reset",
                               textScaleFactor: 1,

@@ -27,7 +27,35 @@ class PostModel {
       image:
           "https://images.pexels.com/photos/3244513/pexels-photo-3244513.jpeg?auto=compress&cs=tinysrgb&w=1600",
       likes: [],
-      comments: [],
+      comments: [
+        CommentModel(
+          id: "1",
+          comment: "Great",
+          userId: "1",
+          postId: "1",
+          likes: [],
+          dislikes: [],
+          creationDate: DateTime.now(),
+        ),
+        CommentModel(
+          id: "1",
+          comment: "Great",
+          userId: "1",
+          postId: "1",
+          likes: [],
+          dislikes: [],
+          creationDate: DateTime.now(),
+        ),
+        CommentModel(
+          id: "1",
+          comment: "Great",
+          userId: "1",
+          likes: [],
+          dislikes: [],
+          postId: "1",
+          creationDate: DateTime.now(),
+        ),
+      ],
       userId: "1",
     ),
     PostModel(
@@ -35,7 +63,17 @@ class PostModel {
       caption: "If you truly love nature, you will find beauty everywhere.",
       creationDate: DateTime.now(),
       likes: [],
-      comments: [],
+      comments: [
+        CommentModel(
+          id: "2",
+          comment: "Wowwww",
+          userId: "1",
+          postId: "1",
+          creationDate: DateTime.now(),
+          dislikes: [],
+          likes: [],
+        ),
+      ],
       userId: "1",
     ),
   ];

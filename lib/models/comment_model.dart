@@ -3,7 +3,8 @@ import 'package:lgbtq_social_media/models/user_model.dart';
 class CommentModel {
   final String id;
   final String comment;
-  final UserModel user;
+  final String userId;
+  final String postId;
   final List<UserModel>? likes;
   final List<UserModel>? dislikes;
   final DateTime creationDate;
@@ -11,7 +12,8 @@ class CommentModel {
   CommentModel({
     required this.id,
     required this.comment,
-    required this.user,
+    required this.userId,
+    required this.postId,
     this.likes,
     this.dislikes,
     required this.creationDate,
@@ -20,7 +22,10 @@ class CommentModel {
   static CommentModel dummyComments = CommentModel(
     id: "1",
     comment: "If you truly love nature, you will find beauty everywhere.",
-    user: UserModel.dummyUser,
+    userId: "1",
+    postId: "1",
     creationDate: DateTime.now(),
+    likes: [],
+    dislikes: [],
   );
 }

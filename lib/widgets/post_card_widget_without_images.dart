@@ -40,8 +40,8 @@ class _PostCardWidgetWithoutImagesState
               Navigator.of(context).pushNamed(
                 PostScreen.routeName,
                 arguments: [
-                  widget.post,
                   widget.user,
+                  widget.post,
                 ],
               );
             },
@@ -73,7 +73,9 @@ class _PostCardWidgetWithoutImagesState
                 text: widget.post.likes.length.toString(),
               ),
               ActionButton(
-                onPressed: () {},
+                onPressed: () {
+                  ParseFunctions.addComment(context);
+                },
                 iconData: Icons.comment,
                 text: widget.post.comments.length.toString(),
               ),
@@ -91,6 +93,7 @@ class _PostCardWidgetWithoutImagesState
             child: Text(
               ParseFunctions.getDateFromDateTime(
                 date: widget.post.creationDate,
+                isTimeNeeded: true,
               ),
               textScaleFactor: 1,
               textAlign: TextAlign.left,

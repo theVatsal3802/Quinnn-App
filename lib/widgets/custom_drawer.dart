@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:lgbtq_social_media/screens/about/about_screen.dart';
 import 'package:lgbtq_social_media/screens/auth/auth_screen.dart';
+import 'package:lgbtq_social_media/screens/auth/profile_setup_screen.dart';
 import 'package:lgbtq_social_media/screens/dashboard/home_screen.dart';
 import 'package:lgbtq_social_media/screens/events/event_screen.dart';
-import 'package:lgbtq_social_media/screens/settings/settings_screen.dart';
+import 'package:lgbtq_social_media/screens/resources/resources_screen.dart';
 import 'package:lgbtq_social_media/screens/tnc/terms_and_conditions.dart';
 import 'package:lgbtq_social_media/utils/assets_manager.dart';
 import 'package:lgbtq_social_media/utils/color_manager.dart';
@@ -40,9 +41,19 @@ class CustomDrawer extends StatelessWidget {
           buildListTile(
             context: context,
             iconData: Icons.calendar_month,
-            title: "Upcoming Events",
+            title: "Events",
             onTap: () {
               Navigator.of(context).pushReplacementNamed(EventScreen.routeName);
+            },
+          ),
+          const Divider(),
+          buildListTile(
+            context: context,
+            iconData: Icons.description,
+            title: "Resources",
+            onTap: () {
+              Navigator.of(context)
+                  .pushReplacementNamed(ResourcesScreen.routeName);
             },
           ),
           const Divider(),
@@ -51,8 +62,15 @@ class CustomDrawer extends StatelessWidget {
             iconData: Icons.settings,
             title: "Settings",
             onTap: () {
-              Navigator.of(context)
-                  .pushReplacementNamed(SettingsScreen.routeName);
+              Navigator.of(context).pushReplacement(
+                MaterialPageRoute(
+                  builder: (context) {
+                    return const ProfileSetupScreen(
+                      isUpdate: true,
+                    );
+                  },
+                ),
+              );
             },
           ),
           const Divider(),

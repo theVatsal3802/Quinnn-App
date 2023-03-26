@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lgbtq_social_media/models/user_model.dart';
 import 'package:lgbtq_social_media/screens/new_post/new_post_screen.dart';
+import 'package:lgbtq_social_media/screens/profile/profile_screen.dart';
 import 'package:lgbtq_social_media/utils/assets_manager.dart';
 import 'package:lgbtq_social_media/utils/color_manager.dart';
 import 'package:lgbtq_social_media/widgets/custom_drawer.dart';
@@ -29,6 +30,12 @@ class HomeScreen extends StatelessWidget {
                 Navigator.of(context).pushNamed(NewPostScreen.routeName);
               },
               icon: const Icon(Icons.add),
+            ),
+            IconButton(
+              onPressed: () {
+                Navigator.of(context).pushNamed(ProfileScreen.routeName);
+              },
+              icon: const Icon(Icons.account_circle),
             ),
           ],
         ),

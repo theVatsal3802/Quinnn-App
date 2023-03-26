@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-class SettingsScreen extends StatelessWidget {
-  static const routeName = "/settings";
-  const SettingsScreen({super.key});
+class ResourcesScreen extends StatelessWidget {
+  static const routeName = "/resources";
+  const ResourcesScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

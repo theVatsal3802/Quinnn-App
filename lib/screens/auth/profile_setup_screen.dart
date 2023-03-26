@@ -3,10 +3,15 @@ import 'package:lgbtq_social_media/utils/assets_manager.dart';
 import 'package:lgbtq_social_media/utils/color_manager.dart';
 import 'package:country_picker/country_picker.dart';
 import 'package:lgbtq_social_media/utils/parse_functions.dart';
+import 'package:lgbtq_social_media/widgets/custom_drawer.dart';
 
 class ProfileSetupScreen extends StatefulWidget {
   static const routeName = "/profile-setup";
-  const ProfileSetupScreen({super.key});
+  final bool isUpdate;
+  const ProfileSetupScreen({
+    super.key,
+    required this.isUpdate,
+  });
 
   @override
   State<ProfileSetupScreen> createState() => _ProfileSetupScreenState();
@@ -14,29 +19,12 @@ class ProfileSetupScreen extends StatefulWidget {
 
 class _ProfileSetupScreenState extends State<ProfileSetupScreen> {
   final bioController = TextEditingController();
+  final nameController = TextEditingController();
+  final usernameController = TextEditingController();
   String country = "";
   String flag = "";
+  bool isProfilePrivate = false;
   String dob = "";
-  String? selectedGender;
-  List<String> genders = [
-    "Male",
-    "Female",
-    "Gay",
-    "Lesbian",
-    "Bisexual",
-    "Transgender",
-    "Queer",
-  ];
-
-  DropdownMenuItem<String> buildMenuItem(String item) {
-    return DropdownMenuItem(
-      value: item,
-      child: Text(
-        item,
-        textScaleFactor: 1,
-      ),
-    );
-  }
 
   void selectCountry() {
     showCountryPicker(
@@ -75,11 +63,12 @@ class _ProfileSetupScreenState extends State<ProfileSetupScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: widget.isUpdate ? const CustomDrawer() : null,
       appBar: AppBar(
-        backgroundColor: ColorManager.baseWhiteShadeColor,
-        elevation: 0,
-        title: const Text(
-          "Lets complete setting up your profile",
+        title: Text(
+          widget.isUpdate
+              ? "Edit Profile"
+              : "Lets complete setting up your profile",
           textScaleFactor: 1,
         ),
       ),
@@ -88,153 +77,179 @@ class _ProfileSetupScreenState extends State<ProfileSetupScreen> {
           height: MediaQuery.of(context).size.height,
           width: MediaQuery.of(context).size.width,
           child: SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.all(20),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Container(
-                    height: 250,
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                      color: ColorManager.baseGreyColor,
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Text(
-                          "Set your personal profile pic",
-                          textScaleFactor: 1,
-                          style: Theme.of(context).textTheme.titleLarge!,
-                        ),
-                        Center(
-                          child: CircleAvatar(
-                            radius: 70,
-                            backgroundColor: ColorManager.baseGreyColor,
-                            child: Image.asset(AssetManager.profile),
-                          ),
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            OutlinedButton.icon(
-                              onPressed: () {},
-                              style: OutlinedButton.styleFrom(
-                                side: const BorderSide(
-                                  color: ColorManager.baseDarkGreyColor,
-                                ),
-                              ),
-                              icon: const Icon(Icons.camera),
-                              label: const Text(
-                                "From Camera",
-                                textScaleFactor: 1,
-                              ),
-                            ),
-                            OutlinedButton.icon(
-                              onPressed: () {},
-                              style: OutlinedButton.styleFrom(
-                                side: const BorderSide(
-                                  color: ColorManager.baseDarkGreyColor,
-                                ),
-                              ),
-                              icon: const Icon(Icons.image),
-                              label: const Text(
-                                "From Gallery",
-                                textScaleFactor: 1,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
+            padding: const EdgeInsets.all(20),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                if (widget.isUpdate)
+                  TextField(
+                    keyboardType: TextInputType.name,
+                    enableSuggestions: true,
+                    controller: nameController,
+                    textCapitalization: TextCapitalization.words,
+                    decoration: const InputDecoration(
+                      labelText: "Name",
                     ),
                   ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  Container(
-                    height: 250,
-                    width: double.infinity,
-                    padding: const EdgeInsets.all(10),
-                    decoration: BoxDecoration(
-                      color: ColorManager.baseGreyColor,
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Text(
-                          "Set your cover image",
-                          textScaleFactor: 1,
-                          style: Theme.of(context).textTheme.titleLarge!,
-                        ),
-                        Expanded(
-                          child: Container(
-                            padding: const EdgeInsets.all(10),
-                            decoration: const BoxDecoration(
-                              image: DecorationImage(
-                                image: AssetImage(AssetManager.cover),
-                                fit: BoxFit.contain,
-                              ),
-                            ),
-                          ),
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            OutlinedButton.icon(
-                              onPressed: () {},
-                              style: OutlinedButton.styleFrom(
-                                side: const BorderSide(
-                                  color: ColorManager.baseDarkGreyColor,
-                                ),
-                              ),
-                              icon: const Icon(Icons.camera),
-                              label: const Text(
-                                "From Camera",
-                                textScaleFactor: 1,
-                              ),
-                            ),
-                            OutlinedButton.icon(
-                              onPressed: () {},
-                              style: OutlinedButton.styleFrom(
-                                side: const BorderSide(
-                                  color: ColorManager.baseDarkGreyColor,
-                                ),
-                              ),
-                              icon: const Icon(Icons.image),
-                              label: const Text(
-                                "From Gallery",
-                                textScaleFactor: 1,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
+                const SizedBox(
+                  height: 10,
+                ),
+                if (widget.isUpdate)
+                  TextField(
+                    keyboardType: TextInputType.name,
+                    enableSuggestions: true,
+                    controller: usernameController,
+                    textCapitalization: TextCapitalization.none,
+                    decoration: const InputDecoration(
+                      labelText: "Username",
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.all(10),
-                    child: TextFormField(
-                      key: const ValueKey('bio'),
-                      controller: bioController,
-                      autocorrect: true,
-                      enableSuggestions: true,
-                      keyboardType: TextInputType.multiline,
-                      maxLines: 4,
-                      decoration: const InputDecoration(
-                        labelText: 'Bio',
-                        prefixIcon: Icon(Icons.description),
+                const SizedBox(
+                  height: 10,
+                ),
+                Container(
+                  height: 250,
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    color: ColorManager.baseGreyColor,
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        "Set your personal profile pic",
+                        textScaleFactor: 1,
+                        style: Theme.of(context).textTheme.titleLarge!,
                       ),
+                      Center(
+                        child: CircleAvatar(
+                          radius: 70,
+                          backgroundColor: ColorManager.baseGreyColor,
+                          child: Image.asset(AssetManager.profile),
+                        ),
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          OutlinedButton.icon(
+                            onPressed: () {},
+                            style: OutlinedButton.styleFrom(
+                              side: const BorderSide(
+                                color: ColorManager.baseDarkGreyColor,
+                              ),
+                            ),
+                            icon: const Icon(Icons.camera),
+                            label: const Text(
+                              "From Camera",
+                              textScaleFactor: 1,
+                            ),
+                          ),
+                          OutlinedButton.icon(
+                            onPressed: () {},
+                            style: OutlinedButton.styleFrom(
+                              side: const BorderSide(
+                                color: ColorManager.baseDarkGreyColor,
+                              ),
+                            ),
+                            icon: const Icon(Icons.image),
+                            label: const Text(
+                              "From Gallery",
+                              textScaleFactor: 1,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                Container(
+                  height: 250,
+                  width: double.infinity,
+                  padding: const EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                    color: ColorManager.baseGreyColor,
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        "Set your cover image",
+                        textScaleFactor: 1,
+                        style: Theme.of(context).textTheme.titleLarge!,
+                      ),
+                      Expanded(
+                        child: Container(
+                          padding: const EdgeInsets.all(10),
+                          decoration: const BoxDecoration(
+                            image: DecorationImage(
+                              image: AssetImage(AssetManager.cover),
+                              fit: BoxFit.contain,
+                            ),
+                          ),
+                        ),
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          OutlinedButton.icon(
+                            onPressed: () {},
+                            style: OutlinedButton.styleFrom(
+                              side: const BorderSide(
+                                color: ColorManager.baseDarkGreyColor,
+                              ),
+                            ),
+                            icon: const Icon(Icons.camera),
+                            label: const Text(
+                              "From Camera",
+                              textScaleFactor: 1,
+                            ),
+                          ),
+                          OutlinedButton.icon(
+                            onPressed: () {},
+                            style: OutlinedButton.styleFrom(
+                              side: const BorderSide(
+                                color: ColorManager.baseDarkGreyColor,
+                              ),
+                            ),
+                            icon: const Icon(Icons.image),
+                            label: const Text(
+                              "From Gallery",
+                              textScaleFactor: 1,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 10),
+                  child: TextFormField(
+                    key: const ValueKey('bio'),
+                    controller: bioController,
+                    autocorrect: true,
+                    enableSuggestions: true,
+                    keyboardType: TextInputType.multiline,
+                    maxLines: 4,
+                    decoration: const InputDecoration(
+                      labelText: 'Bio',
+                      prefixIcon: Icon(Icons.description),
                     ),
                   ),
+                ),
+                if (!widget.isUpdate)
                   ListTile(
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20),
@@ -247,9 +262,11 @@ class _ProfileSetupScreenState extends State<ProfileSetupScreen> {
                       textScaleFactor: 1,
                     ),
                   ),
+                if (!widget.isUpdate)
                   const SizedBox(
                     height: 10,
                   ),
+                if (!widget.isUpdate)
                   ListTile(
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20),
@@ -262,51 +279,36 @@ class _ProfileSetupScreenState extends State<ProfileSetupScreen> {
                       textScaleFactor: 1,
                     ),
                   ),
+                if (!widget.isUpdate)
                   const SizedBox(
                     height: 10,
                   ),
-                  Container(
-                    padding: const EdgeInsets.all(10),
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                        width: 1,
-                        color: ColorManager.baseGreyColor,
-                      ),
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    child: DropdownButtonHideUnderline(
-                      child: DropdownButton<String>(
-                        isExpanded: true,
-                        hint: const Text(
-                          "Select Gender",
-                          textScaleFactor: 1,
-                        ),
-                        value: selectedGender,
-                        items: genders
-                            .map(
-                              buildMenuItem,
-                            )
-                            .toList(),
-                        onChanged: (gender) {
-                          setState(() {
-                            selectedGender = gender;
-                          });
-                        },
-                      ),
-                    ),
+                SwitchListTile(
+                  title: const Text(
+                    "Make Profile Private",
+                    textScaleFactor: 1,
                   ),
-                  const SizedBox(
-                    height: 20,
+                  value: isProfilePrivate,
+                  onChanged: (value) {
+                    setState(() {
+                      isProfilePrivate = value;
+                    });
+                  },
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20)),
+                  tileColor: ColorManager.baseGreyColor,
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                ElevatedButton(
+                  onPressed: () {},
+                  child: Text(
+                    widget.isUpdate ? "Save changes" : "Save my info",
+                    textScaleFactor: 1,
                   ),
-                  ElevatedButton(
-                    onPressed: () {},
-                    child: const Text(
-                      "Save my info",
-                      textScaleFactor: 1,
-                    ),
-                  ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         ),

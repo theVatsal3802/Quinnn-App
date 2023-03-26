@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lgbtq_social_media/functions/dashboard_functions.dart';
 import 'package:lgbtq_social_media/models/user_model.dart';
+import 'package:lgbtq_social_media/screens/profile/profile_screen.dart';
 import 'package:lgbtq_social_media/utils/assets_manager.dart';
 import 'package:lgbtq_social_media/utils/color_manager.dart';
 
@@ -14,6 +15,12 @@ class TopListTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
+      onTap: () {
+        Navigator.of(context).pushNamed(
+          ProfileScreen.routeName,
+          arguments: user,
+        );
+      },
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(20),
@@ -29,15 +36,12 @@ class TopListTile extends StatelessWidget {
             ? const AssetImage(AssetManager.profile)
             : null,
       ),
-      title: GestureDetector(
-        onTap: () {},
-        child: Text(
-          user.username,
-          textScaleFactor: 1,
-          style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                fontSize: 16,
-              ),
-        ),
+      title: Text(
+        user.username,
+        textScaleFactor: 1,
+        style: Theme.of(context).textTheme.titleLarge!.copyWith(
+              fontSize: 16,
+            ),
       ),
       subtitle: Text(
         user.name,

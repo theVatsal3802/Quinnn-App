@@ -31,6 +31,21 @@ class EventModel {
       eventDateAndTime: DateTime.now(),
       creationDate: DateTime.now(),
       isOnlineEvent: false,
+      eventImageUrl: "",
+      eventUrl: "",
+    ),
+    EventModel(
+      id: "2",
+      eventTitle: "ABCDE",
+      eventDescription:
+          "If you truly love nature, you will find beauty everywhere. Yes thats true",
+      eventLocation: "Jaipur, India, Earth",
+      eventDateAndTime: DateTime.now(),
+      creationDate: DateTime.now(),
+      isOnlineEvent: true,
+      eventImageUrl:
+          "https://images.pexels.com/photos/4818015/pexels-photo-4818015.jpeg?auto=compress&cs=tinysrgb&w=1600",
+      eventUrl: "https://meet.google.com/",
     ),
   ];
 }

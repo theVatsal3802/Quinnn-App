@@ -8,11 +8,13 @@ import 'package:lgbtq_social_media/screens/auth/email_confirm_screen.dart';
 import 'package:lgbtq_social_media/screens/auth/forgot_password_screen.dart';
 import 'package:lgbtq_social_media/screens/auth/profile_setup_screen.dart';
 import 'package:lgbtq_social_media/screens/dashboard/home_screen.dart';
-import 'package:lgbtq_social_media/screens/events/event_description_screen.dart';
+import 'package:lgbtq_social_media/screens/events/add_event_screen.dart';
 import 'package:lgbtq_social_media/screens/events/event_screen.dart';
 import 'package:lgbtq_social_media/screens/dashboard/post_screen.dart';
 import 'package:lgbtq_social_media/screens/new_post/new_post_screen.dart';
-import 'package:lgbtq_social_media/screens/settings/settings_screen.dart';
+import 'package:lgbtq_social_media/screens/profile/profile_screen.dart';
+import 'package:lgbtq_social_media/screens/resources/resource_description_screen.dart';
+import 'package:lgbtq_social_media/screens/resources/resources_screen.dart';
 import 'package:lgbtq_social_media/screens/splash/splash_screen.dart';
 import 'package:lgbtq_social_media/screens/tnc/terms_and_conditions.dart';
 import 'package:lgbtq_social_media/utils/theme_manager.dart';
@@ -44,19 +46,23 @@ class MyApp extends StatelessWidget {
             const EmailVerificationScreen(),
         ForgotPasswordScreen.routeName: (context) =>
             const ForgotPasswordScreen(),
-        ProfileSetupScreen.routeName: (context) => const ProfileSetupScreen(),
+        ProfileSetupScreen.routeName: (context) => const ProfileSetupScreen(
+              isUpdate: false,
+            ),
         HomeScreen.routeName: (context) => const HomeScreen(),
         EventScreen.routeName: (context) => const EventScreen(),
-        SettingsScreen.routeName: (context) => const SettingsScreen(),
         SplashScreen.routeName: (context) => const SplashScreen(),
         PostScreen.routeName: (context) => const PostScreen(),
-        EventDescriptionScreen.routeName: (context) =>
-            const EventDescriptionScreen(),
         NewPostScreen.routeName: (context) => const NewPostScreen(),
         AboutTheAppScreen.routeName: (context) => const AboutTheAppScreen(),
         AboutTheTeamScreen.routeName: (context) => const AboutTheTeamScreen(),
         TermsAndConditionsScrren.routeName: (context) =>
             const TermsAndConditionsScrren(),
+        ProfileScreen.routeName: (context) => const ProfileScreen(),
+        ResourcesScreen.routeName: (context) => const ResourcesScreen(),
+        ResourceDescriptionScreen.routeName: (context) =>
+            const ResourceDescriptionScreen(),
+        AddEventScreen.routeName: (context) => const AddEventScreen(),
       },
     );
   }
