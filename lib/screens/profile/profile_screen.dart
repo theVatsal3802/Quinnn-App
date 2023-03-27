@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:lgbtq_social_media/functions/common_functions.dart';
 import 'package:lgbtq_social_media/models/post_model.dart';
 import 'package:lgbtq_social_media/models/user_model.dart';
 import 'package:lgbtq_social_media/screens/auth/profile_setup_screen.dart';
+import 'package:lgbtq_social_media/utils/assets_manager.dart';
 import 'package:lgbtq_social_media/utils/color_manager.dart';
 import 'package:lgbtq_social_media/widgets/post_card_widget_with_images.dart';
 import 'package:lgbtq_social_media/widgets/post_card_widget_without_images.dart';
@@ -34,6 +36,18 @@ class ProfileScreen extends StatelessWidget {
               );
             },
             icon: const Icon(Icons.edit),
+          ),
+          IconButton(
+            onPressed: () {
+              CommonFunctions.shareProfile(
+                title: user.username,
+                text:
+                    "Check out ${user.name}'s profile on ${AssetManager.appName}",
+                chooserTitle:
+                    "Select and app to share ${user.name}'s ${AssetManager.appName} profile",
+              );
+            },
+            icon: const Icon(Icons.share),
           ),
         ],
       ),

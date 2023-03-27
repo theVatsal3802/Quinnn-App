@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lgbtq_social_media/functions/common_functions.dart';
 import 'package:lgbtq_social_media/models/event_model.dart';
 import 'package:lgbtq_social_media/utils/color_manager.dart';
 import 'package:lgbtq_social_media/utils/parse_functions.dart';
@@ -14,8 +15,8 @@ class EventBox extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.symmetric(vertical: 10),
-      padding: const EdgeInsets.symmetric(vertical: 20),
+      margin: const EdgeInsets.only(bottom: 10),
+      padding: const EdgeInsets.symmetric(vertical: 10),
       color: ColorManager.baseWhiteColor,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -28,12 +29,35 @@ class EventBox extends StatelessWidget {
               top: 5,
               bottom: 10,
             ),
-            child: Text(
-              event.eventTitle,
-              textScaleFactor: 1,
-              style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                    fontSize: 20,
+            child: Row(
+              children: [
+                Expanded(
+                  child: Text(
+                    event.eventTitle,
+                    textScaleFactor: 1,
+                    style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                          fontSize: 20,
+                        ),
                   ),
+                ),
+                IconButton(
+                  onPressed: () {
+                    CommonFunctions.shareEvent(
+                      title: "New Event: ${event.eventTitle}",
+                      text:
+                          "Event Description: ${event.eventDescription}\nEvent Date: ${ParseFunctions.getDateFromDateTime(
+                        date: event.eventDateAndTime,
+                        isTimeNeeded: true,
+                      )}\nEvent Location: ${event.isOnlineEvent ? "Online" : event.eventLocation}",
+                      chooserTitle: "Select and app to share this event",
+                      url: event.isOnlineEvent
+                          ? "Event Link: ${event.eventUrl}"
+                          : null,
+                    );
+                  },
+                  icon: const Icon(Icons.share),
+                ),
+              ],
             ),
           ),
           if (event.eventImageUrl != null && event.eventImageUrl!.isNotEmpty)

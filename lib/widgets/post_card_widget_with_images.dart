@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lgbtq_social_media/functions/common_functions.dart';
 import 'package:lgbtq_social_media/models/post_model.dart';
 import 'package:lgbtq_social_media/models/user_model.dart';
 import 'package:lgbtq_social_media/screens/dashboard/post_screen.dart';
@@ -68,7 +69,14 @@ class _PostCardWidgetWithImagesState extends State<PostCardWidgetWithImages> {
                 text: widget.post.comments.length.toString(),
               ),
               IconButton(
-                onPressed: () {},
+                onPressed: () {
+                  CommonFunctions.sharePost(
+                    title: "New post from ${widget.user.name}",
+                    text: widget.post.caption,
+                    chooserTitle:
+                        "Select and app to share ${widget.user.name}'s new post",
+                  );
+                },
                 icon: const Icon(Icons.share),
               ),
             ],

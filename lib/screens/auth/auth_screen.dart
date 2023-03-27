@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:lgbtq_social_media/functions/auth_functions.dart';
+import 'package:lgbtq_social_media/screens/auth/email_confirm_screen.dart';
 import 'package:lgbtq_social_media/screens/auth/forgot_password_screen.dart';
+import 'package:lgbtq_social_media/screens/dashboard/home_screen.dart';
 import 'package:lgbtq_social_media/screens/tnc/terms_and_conditions.dart';
 import 'package:lgbtq_social_media/utils/assets_manager.dart';
 import 'package:lgbtq_social_media/utils/color_manager.dart';
+import 'package:lgbtq_social_media/utils/parse_functions.dart';
 
 class AuthScreen extends StatefulWidget {
   static const routeName = "/auth";
@@ -18,7 +22,7 @@ class _AuthScreenState extends State<AuthScreen> {
   final usernameController = TextEditingController();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
-  bool isLogin = false;
+  bool isLogin = true;
   bool isLoading = false;
   bool isTncChecked = false;
   String? selectedGender;
@@ -40,6 +44,86 @@ class _AuthScreenState extends State<AuthScreen> {
         item,
         textScaleFactor: 1,
       ),
+    );
+  }
+
+  Future<void> signup() async {
+    FocusScope.of(context).unfocus();
+    final valid = _formKey.currentState!.validate();
+    if (!valid) {
+      return;
+    }
+    if (!isTncChecked) {
+      ParseFunctions.showSnackbar(
+        context: context,
+        text: "Please agree to our terms and conditions",
+      );
+      return;
+    }
+    if (selectedGender == null || selectedGender!.isEmpty) {
+      ParseFunctions.showSnackbar(
+        context: context,
+        text: "Please specify your gender",
+      );
+      return;
+    }
+    _formKey.currentState!.save();
+    setState(() {
+      isLoading = true;
+    });
+    await AuthFunctions.signupNewUser(
+      name: nameController.text.trim(),
+      username: usernameController.text.trim(),
+      email: emailController.text.trim().toLowerCase(),
+      password: passwordController.text.trim(),
+      gender: selectedGender!,
+    ).then(
+      (value) {
+        setState(() {
+          isLoading = false;
+        });
+        if (value) {
+          Navigator.of(context).pushNamed(EmailVerificationScreen.routeName);
+        } else {
+          ParseFunctions.showSnackbar(
+            context: context,
+            text: "Sign up failed, please try again",
+          );
+        }
+      },
+    );
+  }
+
+  Future<void> login() async {
+    FocusScope.of(context).unfocus();
+    final valid = _formKey.currentState!.validate();
+    if (!valid) {
+      return;
+    }
+    _formKey.currentState!.save();
+    setState(() {
+      isLoading = true;
+    });
+    await AuthFunctions.loginUser(
+      email: emailController.text.toLowerCase(),
+      password: passwordController.text,
+    ).then(
+      (value) {
+        setState(() {
+          isLoading = false;
+        });
+        if (value.isNotEmpty) {
+          Navigator.of(context).pushNamed(
+            HomeScreen.routeName,
+            arguments: value,
+          );
+        } else {
+          ParseFunctions.showSnackbar(
+            context: context,
+            text: value,
+          );
+        }
+      },
     );
   }
 
@@ -259,15 +343,26 @@ class _AuthScreenState extends State<AuthScreen> {
                         ),
                       ),
                     ),
-                  Center(
-                    child: ElevatedButton(
-                      onPressed: () {},
-                      child: const Text(
-                        "Continue",
-                        textScaleFactor: 1,
+                  if (!isLoading)
+                    Center(
+                      child: ElevatedButton(
+                        onPressed: () async {
+                          if (!isLogin) {
+                            await signup();
+                          } else {
+                            await login();
+                          }
+                        },
+                        child: const Text(
+                          "Continue",
+                          textScaleFactor: 1,
+                        ),
                       ),
                     ),
-                  ),
+                  if (isLoading)
+                    const Center(
+                      child: CircularProgressIndicator.adaptive(),
+                    ),
                   const SizedBox(
                     height: 20,
                   ),

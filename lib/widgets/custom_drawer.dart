@@ -18,15 +18,30 @@ class CustomDrawer extends StatelessWidget {
       backgroundColor: ColorManager.baseWhiteColor,
       child: Column(
         children: [
-          Padding(
-            padding: const EdgeInsets.all(30),
-            child: Text(
-              AssetManager.appName,
-              textScaleFactor: 1,
-              style: Theme.of(context).textTheme.displaySmall!.copyWith(
-                    color: ColorManager.baseBlueColor,
-                  ),
-            ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Image.asset(
+                AssetManager.appLogo,
+                height: 100,
+                width: 100,
+                fit: BoxFit.contain,
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 10,
+                  vertical: 30,
+                ),
+                child: Text(
+                  AssetManager.appName,
+                  textScaleFactor: 1,
+                  style: Theme.of(context).textTheme.displaySmall!.copyWith(
+                        color: ColorManager.baseBlueColor,
+                      ),
+                ),
+              ),
+            ],
           ),
           const Divider(),
           buildListTile(
