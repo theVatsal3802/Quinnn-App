@@ -18,4 +18,18 @@ class UserFunctions {
     print(responseMap);
     return user;
   }
+
+  static Future<Map<String, String>> fetchUserDataForProfileSetup(
+      {required String token}) async {
+    final url = Uri.parse("$apiUrl/user/profile");
+    final response = await http.get(
+      url,
+      headers: {
+        "token": token,
+      },
+    );
+    final responseMap = json.decode(response.body);
+    print(responseMap);
+    return responseMap;
+  }
 }

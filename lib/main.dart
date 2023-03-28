@@ -3,8 +3,8 @@ import 'package:flutter/services.dart';
 import 'package:lgbtq_social_media/screens/about/about_screen.dart';
 import 'package:lgbtq_social_media/screens/about/about_the_app_screen.dart';
 import 'package:lgbtq_social_media/screens/about/about_the_team_screen.dart';
-import 'package:lgbtq_social_media/screens/auth/auth_screen.dart';
-import 'package:lgbtq_social_media/screens/auth/email_confirm_screen.dart';
+import 'package:lgbtq_social_media/screens/auth/login_screen.dart';
+import 'package:lgbtq_social_media/screens/auth/signup_screen.dart';
 import 'package:lgbtq_social_media/screens/auth/forgot_password_screen.dart';
 import 'package:lgbtq_social_media/screens/auth/profile_setup_screen.dart';
 import 'package:lgbtq_social_media/screens/dashboard/home_screen.dart';
@@ -38,12 +38,15 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'LGBTQ Social Media',
       theme: ThemeManager.theme(),
-      home: const HomeScreen(),
+      home: const LoginScreen(
+        isFromSignup: false,
+      ),
       routes: {
         AboutScreen.routeName: (context) => const AboutScreen(),
-        AuthScreen.routeName: (context) => const AuthScreen(),
-        EmailVerificationScreen.routeName: (context) =>
-            const EmailVerificationScreen(),
+        SignupScreen.routeName: (context) => const SignupScreen(),
+        LoginScreen.routeName: (context) => const LoginScreen(
+              isFromSignup: false,
+            ),
         ForgotPasswordScreen.routeName: (context) =>
             const ForgotPasswordScreen(),
         ProfileSetupScreen.routeName: (context) => const ProfileSetupScreen(

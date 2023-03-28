@@ -1,7 +1,13 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:lgbtq_social_media/functions/auth_functions.dart';
+import 'package:lgbtq_social_media/screens/dashboard/home_screen.dart';
 import 'package:lgbtq_social_media/utils/assets_manager.dart';
 import 'package:lgbtq_social_media/utils/color_manager.dart';
 import 'package:country_picker/country_picker.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:lgbtq_social_media/utils/parse_functions.dart';
 import 'package:lgbtq_social_media/widgets/custom_drawer.dart';
 
@@ -23,8 +29,12 @@ class _ProfileSetupScreenState extends State<ProfileSetupScreen> {
   final usernameController = TextEditingController();
   String country = "";
   String flag = "";
+  String profileImageUrl = "";
+  String coverImageUrl = "";
   bool isProfilePrivate = false;
   String dob = "";
+  String token = "";
+  bool isLoading = false;
 
   void selectCountry() {
     showCountryPicker(
@@ -60,8 +70,124 @@ class _ProfileSetupScreenState extends State<ProfileSetupScreen> {
     );
   }
 
+  Future<void> setupProfile() async {
+    setState(() {
+      isLoading = true;
+    });
+    await AuthFunctions.completeProfileSetup(
+      token: token,
+      bio: bioController.text.isNotEmpty ? bioController.text : null,
+      country: country.isNotEmpty ? country : null,
+      coverImageUrl: coverImageUrl.isNotEmpty ? coverImageUrl : null,
+      isPrivate: isProfilePrivate,
+      name: nameController.text.isNotEmpty ? nameController.text : null,
+      profileImageUrl: profileImageUrl.isNotEmpty ? profileImageUrl : null,
+      username:
+          usernameController.text.isNotEmpty ? usernameController.text : null,
+      dob: dob.isNotEmpty ? dob : null,
+    ).then(
+      (value) {
+        setState(() {
+          isLoading = false;
+        });
+        if (value) {
+          Navigator.of(context).pushNamedAndRemoveUntil(
+            HomeScreen.routeName,
+            (route) => false,
+          );
+        } else {
+          ParseFunctions.showSnackbar(
+            context: context,
+            text: "Profile Update failed, try again",
+          );
+        }
+      },
+    );
+  }
+
+  Future<void> pickProfileImageFromGallery() async {
+    final ImagePicker picker = ImagePicker();
+    await picker.pickImage(source: ImageSource.gallery).then(
+      (value) async {
+        File image = File(value!.path);
+        final ext = image.path.split('.').last;
+        final reference = FirebaseStorage.instance;
+        final ref = reference.ref().child("images/$token-profile.$ext");
+        await ref.putFile(
+          image,
+          SettableMetadata(
+            contentType: "image/$ext",
+          ),
+        );
+        profileImageUrl = await ref.getDownloadURL();
+      },
+    );
+  }
+
+  Future<void> pickProfileImageFromCamera() async {
+    final ImagePicker picker = ImagePicker();
+    await picker.pickImage(source: ImageSource.camera).then(
+      (value) async {
+        File image = File(value!.path);
+        final ext = image.path.split('.').last;
+        final reference = FirebaseStorage.instance;
+        final ref = reference.ref().child("images/$token-profile.$ext");
+        await ref.putFile(
+          image,
+          SettableMetadata(
+            contentType: "image/$ext",
+          ),
+        );
+        profileImageUrl = await ref.getDownloadURL();
+      },
+    );
+  }
+
+  Future<void> pickCoverImageFromGallery() async {
+    final ImagePicker picker = ImagePicker();
+    await picker.pickImage(source: ImageSource.gallery).then(
+      (value) async {
+        File image = File(value!.path);
+        final ext = image.path.split('.').last;
+        final reference = FirebaseStorage.instance;
+        final ref = reference.ref().child("images/$token-cover.$ext");
+        await ref.putFile(
+          image,
+          SettableMetadata(
+            contentType: "image/$ext",
+          ),
+        );
+        coverImageUrl = await ref.getDownloadURL();
+      },
+    );
+  }
+
+  Future<void> pickCoverImageFromCamera() async {
+    final ImagePicker picker = ImagePicker();
+    await picker.pickImage(source: ImageSource.camera).then(
+      (value) async {
+        File image = File(value!.path);
+        final ext = image.path.split('.').last;
+        final reference = FirebaseStorage.instance;
+        final ref = reference.ref().child("images/$token-cover.$ext");
+        await ref.putFile(
+          image,
+          SettableMetadata(
+            contentType: "image/$ext",
+          ),
+        );
+        coverImageUrl = await ref.getDownloadURL();
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
+    final data = ModalRoute.of(context)!.settings.arguments as String;
+    setState(() {
+      token = data;
+    });
+
     return Scaffold(
       drawer: widget.isUpdate ? const CustomDrawer() : null,
       appBar: AppBar(
@@ -129,7 +255,12 @@ class _ProfileSetupScreenState extends State<ProfileSetupScreen> {
                         child: CircleAvatar(
                           radius: 70,
                           backgroundColor: ColorManager.baseGreyColor,
-                          child: Image.asset(AssetManager.profile),
+                          backgroundImage: profileImageUrl.isEmpty
+                              ? null
+                              : NetworkImage(profileImageUrl),
+                          child: profileImageUrl.isEmpty
+                              ? Image.asset(AssetManager.profile)
+                              : null,
                         ),
                       ),
                       Row(
@@ -137,7 +268,9 @@ class _ProfileSetupScreenState extends State<ProfileSetupScreen> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           OutlinedButton.icon(
-                            onPressed: () {},
+                            onPressed: () async {
+                              await pickProfileImageFromCamera();
+                            },
                             style: OutlinedButton.styleFrom(
                               side: const BorderSide(
                                 color: ColorManager.baseDarkGreyColor,
@@ -150,7 +283,9 @@ class _ProfileSetupScreenState extends State<ProfileSetupScreen> {
                             ),
                           ),
                           OutlinedButton.icon(
-                            onPressed: () {},
+                            onPressed: () async {
+                              await pickProfileImageFromGallery();
+                            },
                             style: OutlinedButton.styleFrom(
                               side: const BorderSide(
                                 color: ColorManager.baseDarkGreyColor,
@@ -191,11 +326,16 @@ class _ProfileSetupScreenState extends State<ProfileSetupScreen> {
                       Expanded(
                         child: Container(
                           padding: const EdgeInsets.all(10),
-                          decoration: const BoxDecoration(
-                            image: DecorationImage(
-                              image: AssetImage(AssetManager.cover),
-                              fit: BoxFit.contain,
-                            ),
+                          decoration: BoxDecoration(
+                            image: coverImageUrl.isEmpty
+                                ? const DecorationImage(
+                                    image: AssetImage(AssetManager.cover),
+                                    fit: BoxFit.contain,
+                                  )
+                                : DecorationImage(
+                                    image: NetworkImage(coverImageUrl),
+                                    fit: BoxFit.fill,
+                                  ),
                           ),
                         ),
                       ),
@@ -204,7 +344,9 @@ class _ProfileSetupScreenState extends State<ProfileSetupScreen> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           OutlinedButton.icon(
-                            onPressed: () {},
+                            onPressed: () async {
+                              await pickCoverImageFromCamera();
+                            },
                             style: OutlinedButton.styleFrom(
                               side: const BorderSide(
                                 color: ColorManager.baseDarkGreyColor,
@@ -217,7 +359,9 @@ class _ProfileSetupScreenState extends State<ProfileSetupScreen> {
                             ),
                           ),
                           OutlinedButton.icon(
-                            onPressed: () {},
+                            onPressed: () async {
+                              await pickCoverImageFromGallery();
+                            },
                             style: OutlinedButton.styleFrom(
                               side: const BorderSide(
                                 color: ColorManager.baseDarkGreyColor,
@@ -301,13 +445,18 @@ class _ProfileSetupScreenState extends State<ProfileSetupScreen> {
                 const SizedBox(
                   height: 20,
                 ),
-                ElevatedButton(
-                  onPressed: () {},
-                  child: Text(
-                    widget.isUpdate ? "Save changes" : "Save my info",
-                    textScaleFactor: 1,
+                if (!isLoading)
+                  ElevatedButton(
+                    onPressed: () {},
+                    child: Text(
+                      widget.isUpdate ? "Save changes" : "Save my info",
+                      textScaleFactor: 1,
+                    ),
                   ),
-                ),
+                if (isLoading)
+                  const Center(
+                    child: CircularProgressIndicator.adaptive(),
+                  ),
               ],
             ),
           ),

@@ -17,7 +17,7 @@ class AuthFunctions {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: jsonEncode(
+      body: json.encode(
         {
           "name": name,
           "username": username,
@@ -60,17 +60,41 @@ class AuthFunctions {
     return responseMap['message'];
   }
 
-  // static Future<void> completeProfileSetup({
-  //   required String bio,
-  //   required String profileImageUrl,
-  //   required String coverImageUrl,
-  //   required String country,
-  //   required String dob,
-  //   required bool isPrivate,
-  //   required String token,
-  // }) async {
-  //   final url = Uri.parse("$apiUrl/user/profile/update");
-  //   final response
-
-  // }
+  static Future<bool> completeProfileSetup({
+    String? bio,
+    String? name,
+    String? username,
+    String? profileImageUrl,
+    String? coverImageUrl,
+    String? country,
+    String? dob,
+    bool? isPrivate,
+    required String token,
+  }) async {
+    final url = Uri.parse("$apiUrl/user/profile/update");
+    final response = await http.put(
+      url,
+      headers: {
+        "Content-Type": "application/json",
+        "token": token,
+      },
+      body: json.encode(
+        {
+          "name": name,
+          "username": username,
+          "bio": bio,
+          "profileImageURL": profileImageUrl,
+          "coverImageURL": coverImageUrl,
+          "dob": dob,
+          "country": country,
+          "isPrivate": isPrivate,
+        },
+      ),
+    );
+    final responseMap = json.decode(response.body);
+    if (responseMap['status'] == "success") {
+      return true;
+    }
+    return false;
+  }
 }

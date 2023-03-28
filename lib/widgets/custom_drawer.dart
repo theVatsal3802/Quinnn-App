@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lgbtq_social_media/screens/about/about_screen.dart';
-import 'package:lgbtq_social_media/screens/auth/auth_screen.dart';
+import 'package:lgbtq_social_media/screens/auth/login_screen.dart';
 import 'package:lgbtq_social_media/screens/auth/profile_setup_screen.dart';
 import 'package:lgbtq_social_media/screens/dashboard/home_screen.dart';
 import 'package:lgbtq_social_media/screens/events/event_screen.dart';
@@ -118,8 +118,12 @@ class CustomDrawer extends StatelessWidget {
             iconData: Icons.logout,
             title: "Logout",
             onTap: () {
-              Navigator.of(context).pushNamedAndRemoveUntil(
-                AuthScreen.routeName,
+              Navigator.of(context).pushAndRemoveUntil(
+                MaterialPageRoute(
+                  builder: (context) {
+                    return const LoginScreen(isFromSignup: false);
+                  },
+                ),
                 (route) => false,
               );
             },
