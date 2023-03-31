@@ -1,16 +1,22 @@
-# lgbtq_social_media
+<img src="https://i.postimg.cc/sDCtHhzY/logo.png" width=30% height=30%>
 
-A new Flutter project.
+# Quinnn Social Media App
+A social media app for the LGBTQ+ community where they can connect wit each other, post content, write community blogs, and much more.
 
-## Getting Started
+## Installation Guide to run the app on localhost
 
-This project is a starting point for a Flutter application.
+### Requirements 
+- Flutter should be installed
+- Android Emulator or a real android device with USB Debugging on should be connected
 
-A few resources to get you started if this is your first Flutter project:
+### Steps
+- Clone this repo to your local system
+- open the folder in terminal
+- run `flutter run` command, this will take a few minutes and the app will be launched in the connected device
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+## Features
+- Post content
+- Resources for their knowledge
+- Event scheduler to schedule their events
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Screenshots
