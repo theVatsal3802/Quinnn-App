@@ -12,6 +12,7 @@ A social media app for the LGBTQ+ community where they can connect wit each othe
 ### Steps
 - Clone this repo to your local system
 - open the folder in terminal
+- run `flutter pub get` to fetch all the dependencies
 - run `flutter run` command, this will take a few minutes and the app will be launched in the connected device
 
 ## Features
