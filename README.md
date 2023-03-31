@@ -21,3 +21,4 @@ A social media app for the LGBTQ+ community where they can connect wit each othe
 - Event scheduler to schedule their events
 
 ## Screenshots
+<img src="https://user-images.githubusercontent.com/77258481/229029654-8625289f-778d-4f93-9ff1-a93e3cf168c6.png" width=30% height=30%> <img src="https://i.postimg.cc/X77DPSq8/about.jpg" width=30% height=30%>  <img src="https://i.postimg.cc/BnRYtjgY/add-event.jpg" width=30% height=30%> <img src="https://i.postimg.cc/nzG0d0tg/dashboard.jpg" width=30% height=30%> <img src="https://i.postimg.cc/pLT068Wr/post.jpg" width=30% height=30%> 
