@@ -45,11 +45,13 @@ class _PostCardWidgetWithImagesState extends State<PostCardWidgetWithImages> {
                 ],
               );
             },
-            child: Image.network(
-              widget.post.image!,
-              height: MediaQuery.of(context).size.height * 0.2,
-              width: double.infinity,
-              fit: BoxFit.cover,
+            child: Center(
+              child: Image.network(
+                widget.post.image!,
+                height: MediaQuery.of(context).size.height * 0.2,
+                fit: BoxFit.contain,
+                alignment: Alignment.center,
+              ),
             ),
           ),
           Row(

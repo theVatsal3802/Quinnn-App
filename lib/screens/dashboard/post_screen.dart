@@ -38,7 +38,7 @@ class PostScreen extends StatelessWidget {
                 post.image!,
                 height: 250,
                 width: double.infinity,
-                fit: BoxFit.fill,
+                fit: BoxFit.contain,
               ),
             if (post.image == null)
               Padding(

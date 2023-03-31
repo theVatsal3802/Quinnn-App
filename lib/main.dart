@@ -38,9 +38,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'LGBTQ Social Media',
       theme: ThemeManager.theme(),
-      home: const LoginScreen(
-        isFromSignup: false,
-      ),
+      home: const HomeScreen(),
+      debugShowCheckedModeBanner: false,
       routes: {
         AboutScreen.routeName: (context) => const AboutScreen(),
         SignupScreen.routeName: (context) => const SignupScreen(),
