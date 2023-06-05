@@ -183,11 +183,6 @@ class _ProfileSetupScreenState extends State<ProfileSetupScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final data = ModalRoute.of(context)!.settings.arguments as String;
-    setState(() {
-      token = data;
-    });
-
     return Scaffold(
       drawer: widget.isUpdate ? const CustomDrawer() : null,
       appBar: AppBar(

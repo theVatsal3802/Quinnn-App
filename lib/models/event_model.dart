@@ -1,3 +1,6 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'dart:convert';
+
 class EventModel {
   final String id;
   final String eventTitle;
@@ -48,4 +51,69 @@ class EventModel {
       eventUrl: "https://meet.google.com/",
     ),
   ];
+
+  EventModel copyWith({
+    String? id,
+    String? eventTitle,
+    String? eventDescription,
+    String? eventLocation,
+    bool? isOnlineEvent,
+    String? eventUrl,
+    DateTime? eventDateAndTime,
+    String? eventImageUrl,
+    DateTime? creationDate,
+  }) {
+    return EventModel(
+      id: id ?? this.id,
+      eventTitle: eventTitle ?? this.eventTitle,
+      eventDescription: eventDescription ?? this.eventDescription,
+      eventLocation: eventLocation ?? this.eventLocation,
+      isOnlineEvent: isOnlineEvent ?? this.isOnlineEvent,
+      eventUrl: eventUrl ?? this.eventUrl,
+      eventDateAndTime: eventDateAndTime ?? this.eventDateAndTime,
+      eventImageUrl: eventImageUrl ?? this.eventImageUrl,
+      creationDate: creationDate ?? this.creationDate,
+    );
+  }
+
+  Map<String, dynamic> toMap() {
+    return <String, dynamic>{
+      'id': id,
+      'eventTitle': eventTitle,
+      'eventDescription': eventDescription,
+      'eventLocation': eventLocation,
+      'isOnlineEvent': isOnlineEvent,
+      'eventUrl': eventUrl,
+      'eventDateAndTime': eventDateAndTime.millisecondsSinceEpoch,
+      'eventImageUrl': eventImageUrl,
+      'creationDate': creationDate.millisecondsSinceEpoch,
+    };
+  }
+
+  factory EventModel.fromMap(Map<String, dynamic> map) {
+    return EventModel(
+      id: map['id'] as String,
+      eventTitle: map['eventTitle'] as String,
+      eventDescription: map['eventDescription'] as String,
+      eventLocation: map['eventLocation'] as String,
+      isOnlineEvent: map['isOnlineEvent'] as bool,
+      eventUrl: map['eventUrl'] != null ? map['eventUrl'] as String : null,
+      eventDateAndTime:
+          DateTime.fromMillisecondsSinceEpoch(map['eventDateAndTime'] as int),
+      eventImageUrl:
+          map['eventImageUrl'] != null ? map['eventImageUrl'] as String : null,
+      creationDate:
+          DateTime.fromMillisecondsSinceEpoch(map['creationDate'] as int),
+    );
+  }
+
+  String toJson() => json.encode(toMap());
+
+  factory EventModel.fromJson(String source) =>
+      EventModel.fromMap(json.decode(source) as Map<String, dynamic>);
+
+  @override
+  String toString() {
+    return 'EventModel(id: $id, eventTitle: $eventTitle, eventDescription: $eventDescription, eventLocation: $eventLocation, isOnlineEvent: $isOnlineEvent, eventUrl: $eventUrl, eventDateAndTime: $eventDateAndTime, eventImageUrl: $eventImageUrl, creationDate: $creationDate)';
+  }
 }

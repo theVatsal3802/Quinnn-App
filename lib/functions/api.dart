@@ -1,1 +1,1 @@
-String apiUrl = "https://lgbtq-backend-free.azurewebsites.net/api";
+String apiUrl = "https://quinnn.azurewebsites.net/api";

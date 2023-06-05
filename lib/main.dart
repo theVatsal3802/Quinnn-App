@@ -36,7 +36,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'LGBTQ Social Media',
+      title: 'Quinnn',
       theme: ThemeManager.theme(),
       home: const HomeScreen(),
       debugShowCheckedModeBanner: false,

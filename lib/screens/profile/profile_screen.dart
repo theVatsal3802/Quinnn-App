@@ -147,7 +147,7 @@ class ProfileScreen extends StatelessWidget {
                     buildColumn(
                       context: context,
                       title: "Posts",
-                      number: user.posts!.length.toString(),
+                      number: posts.length.toString(),
                       onTap: () {},
                     ),
                     const VerticalDivider(
